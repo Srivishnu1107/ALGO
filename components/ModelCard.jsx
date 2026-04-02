@@ -2,24 +2,24 @@
 
 import { StarIcon } from 'lucide-react'
 import Image from 'next/image'
-import Link from 'next/link'
 
 const ModelCard = ({ product }) => {
 
-  const rating = Number(product.rating || 4.5)
+  const rating = Number(product?.rating || 4.5)
+
+  // ✅ SAFE MODEL URL
+  const modelPath = product?.model || product?.modelUrl || ''
+  const modelLink = modelPath ? `https://huggingface.co/${modelPath}` : null
 
   return (
     <div className="group flex flex-col rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-teal-500/40 transition-all duration-300 overflow-hidden h-[430px] hover:-translate-y-2 hover:shadow-[0_20px_60px_-10px_rgba(20,184,166,0.25)]">
 
-      {/* 🔥 IMAGE / LOGO */}
+      {/* 🔥 IMAGE */}
       <div className="relative h-56 flex items-center justify-center bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 overflow-hidden">
 
-        {/* Glow */}
         <div className="absolute inset-0 bg-gradient-to-br from-teal-500/10 via-transparent to-purple-500/10 blur-2xl opacity-60 group-hover:opacity-100 transition duration-500" />
 
-        {/* Floating effect */}
         <div className="z-10 transform group-hover:scale-110 group-hover:-translate-y-1 transition duration-500">
-
           <Image
             src="/algomort-logo.png"
             alt="AlgoMort"
@@ -27,10 +27,8 @@ const ModelCard = ({ product }) => {
             height={140}
             className="object-contain opacity-90 drop-shadow-[0_0_20px_rgba(20,184,166,0.5)]"
           />
-
         </div>
 
-        {/* 🔥 TOP BADGE */}
         <span className="absolute top-3 left-3 text-[10px] px-2 py-1 rounded-full bg-teal-500/20 text-teal-400 border border-teal-500/30">
           AI MODEL
         </span>
@@ -42,12 +40,12 @@ const ModelCard = ({ product }) => {
 
         {/* NAME */}
         <h3 className="text-white font-semibold text-sm leading-tight line-clamp-2">
-          {product.name}
+          {product?.name || "Unknown Model"}
         </h3>
 
         {/* CATEGORY */}
         <p className="text-zinc-400 text-xs mt-1">
-          {product.category || "AI Model"}
+          {product?.category || "AI Model"}
         </p>
 
         {/* ⭐ RATING */}
@@ -67,16 +65,24 @@ const ModelCard = ({ product }) => {
 
         {/* 💰 PRICE */}
         <p className="text-teal-400 font-bold mt-3 text-lg">
-          ₹{product.price || 0}
+          ₹{product?.price || 0}
         </p>
 
         {/* 🔥 BUTTON */}
-        <Link
-          href={`/success?model=${encodeURIComponent(product.model)}&price=${product.price}`}
-          className="mt-auto text-center bg-gradient-to-r from-teal-500 to-emerald-400 hover:from-teal-400 hover:to-emerald-300 text-black py-2 rounded-lg font-semibold transition duration-300 shadow-lg hover:shadow-teal-500/20"
+        <a
+          href={modelLink || '#'}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={(e) => {
+            if (!modelLink) {
+              e.preventDefault()
+              alert("⚠️ Model link not available")
+            }
+          }}
+          className="mt-auto text-center bg-gradient-to-r from-teal-500 to-emerald-400 hover:from-teal-400 hover:to-emerald-300 text-white py-2 px-4 rounded-lg transition"
         >
           Try / Get Model
-        </Link>
+        </a>
 
       </div>
     </div>
