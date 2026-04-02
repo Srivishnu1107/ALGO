@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic' // ✅ FIXES BUILD ERROR
+
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Download, ShoppingCart, ArrowLeft, ExternalLink } from 'lucide-react'
@@ -12,13 +14,11 @@ export default function SuccessPage() {
   const model = params.get('model')
   const price = params.get('price') || "Free"
 
-  // ✅ SAFE URL
   const modelUrl =
     model && model.includes("/")
       ? `https://huggingface.co/${model}`
       : null
 
-  // 🔥 AUTO REDIRECT AFTER 2 SEC
   useEffect(() => {
     if (modelUrl) {
       setTimeout(() => {
@@ -37,7 +37,6 @@ export default function SuccessPage() {
         className="max-w-3xl w-full bg-zinc-900/80 border border-zinc-700 rounded-3xl p-8 shadow-[0_0_60px_-20px_rgba(20,184,166,0.3)]"
       >
 
-        {/* 🔥 HEADER */}
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -51,9 +50,7 @@ export default function SuccessPage() {
           Redirecting you to HuggingFace...
         </p>
 
-        {/* 🔥 MODEL INFO */}
         <div className="bg-zinc-800 rounded-xl p-5 mb-6 border border-zinc-700">
-
           <p className="text-sm text-zinc-400">Model</p>
           <h2 className="text-lg font-semibold break-all">
             {model || "Unknown Model"}
@@ -63,60 +60,21 @@ export default function SuccessPage() {
           <h3 className="text-teal-400 font-bold text-lg">
             {price === "0" ? "Free" : `₹${price}`}
           </h3>
-
         </div>
 
-        {/* 🔥 INSTRUCTIONS */}
-        <div className="mb-6">
-          <h3 className="text-lg font-semibold mb-3">
-            📌 How to Use
-          </h3>
-
-          <ul className="space-y-2 text-sm text-zinc-400">
-            <li>• Download model files from HuggingFace</li>
-            <li>• Or run using APIs / SDK</li>
-            <li>• Integrate into your app</li>
-            <li>• Use for AI tasks</li>
-          </ul>
-        </div>
-
-        {/* 🔥 BUTTONS */}
         <div className="flex flex-col sm:flex-row gap-4">
-
-          {/* BUY BUTTON */}
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => alert("Coming Soon 🚀")}
-            className="flex-1 flex items-center justify-center gap-2 bg-teal-500 hover:bg-teal-400 text-black py-3 rounded-xl font-semibold transition"
-          >
-            <ShoppingCart size={18} />
-            Buy & Use Model
-          </motion.button>
-
-          {/* DOWNLOAD BUTTON */}
           <motion.a
             href={modelUrl || "#"}
             target="_blank"
             rel="noopener noreferrer"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={(e) => {
-              if (!modelUrl) {
-                e.preventDefault()
-                alert("⚠️ Invalid model link")
-              }
-            }}
             className="flex-1 flex items-center justify-center gap-2 bg-zinc-800 hover:bg-zinc-700 border border-zinc-600 py-3 rounded-xl font-semibold transition"
           >
             <Download size={18} />
-            Download Now
+            Open Manually
             <ExternalLink size={14} />
           </motion.a>
-
         </div>
 
-        {/* 🔥 BACK BUTTON */}
         <div className="mt-6 text-center">
           <Link
             href="/shop"
