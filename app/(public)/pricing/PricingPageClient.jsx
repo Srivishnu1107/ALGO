@@ -91,28 +91,19 @@ const PricingPageClient = () => {
         if (isLoaded) loadData();
     }, [user, isLoaded, getToken]);
 
-    const handleCheckout = async () => {
-        if (!user) {
-            router.push('/sign-in?redirect_url=/pricing');
-            return;
-        }
-        setIsProcessingCheckout(true);
-        try {
-            const token = await getToken();
-            const response = await axios.post('/api/stripe/checkout-pro', {}, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
-            if (response.data.url && typeof window !== 'undefined') {
-                window.location.href = response.data.url;
-            } else {
-                toast.error('Failed to initialize checkout');
-                setIsProcessingCheckout(false);
-            }
-        } catch (error) {
-            console.error('Checkout error:', error);
-            toast.error('An error occurred during checkout');
-            setIsProcessingCheckout(false);
-        }
+ const handleCheckout = async () => {
+  setIsProcessingCheckout(true);
+
+  try {
+    alert("Payment feature coming soon!");
+    setIsProcessingCheckout(false);
+    return;
+  } catch (error) {
+    console.error('Checkout error:', error);
+    toast.error('An error occurred during checkout');
+    setIsProcessingCheckout(false);
+  }
+
     };
 
     const canceled = searchParams.get('canceled') === 'true';
