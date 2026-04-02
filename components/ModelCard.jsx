@@ -7,9 +7,16 @@ const ModelCard = ({ product }) => {
 
   const rating = Number(product?.rating || 4.5)
 
-  // ✅ SAFE MODEL URL
-  const modelPath = product?.model || product?.modelUrl || ''
-  const modelLink = modelPath ? `https://huggingface.co/${modelPath}` : null
+  // ✅ HANDLE MODEL LINK SAFELY
+  const modelPath =
+    product?.model ||
+    product?.modelUrl ||
+    ''
+
+  const modelLink =
+    modelPath && modelPath.includes('/')
+      ? `https://huggingface.co/${modelPath}`
+      : null
 
   return (
     <div className="group flex flex-col rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-teal-500/40 transition-all duration-300 overflow-hidden h-[430px] hover:-translate-y-2 hover:shadow-[0_20px_60px_-10px_rgba(20,184,166,0.25)]">
@@ -81,7 +88,7 @@ const ModelCard = ({ product }) => {
           }}
           className="mt-auto text-center bg-gradient-to-r from-teal-500 to-emerald-400 hover:from-teal-400 hover:to-emerald-300 text-white py-2 px-4 rounded-lg transition"
         >
-          Try / Get Model
+          {modelLink ? "Try / Get Model" : "Not Available"}
         </a>
 
       </div>
