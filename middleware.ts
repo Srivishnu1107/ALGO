@@ -6,7 +6,6 @@ const isPublicRoute = createRouteMatcher([
   '/',
   '/shop(.*)',
   '/fashion(.*)',
-  '/api/stripe(.*)', // Stripe webhooks
   '/api/inngest(.*)', // Inngest webhooks
   '/api/behavior/track(.*)', // Public tracking endpoint
   '/api/recommendations(.*)', // Public recommendations
